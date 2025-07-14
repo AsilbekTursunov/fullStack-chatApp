@@ -3,8 +3,9 @@ import FriendRequest from '@/lib/models/FriendRequest'
 import { filterAccepted, filterUpcoming } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-	const { id: userId } = await params
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+	const userId = context.params.id
+
 	try {
 		await connectDB()
 
@@ -25,6 +26,10 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			acceptedFriendRequests: filterAccepted(acceptedFriendRequests),
 		})
 	} catch (error) {
-		return NextResponse.json({ ok: false, status: 500, error: 'Server error' })
+		return NextResponse.json({
+			ok: false,
+			status: 500,
+			error: 'Server error',
+		})
 	}
 }

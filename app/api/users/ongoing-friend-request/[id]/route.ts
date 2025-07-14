@@ -1,11 +1,11 @@
 import { connectDB } from '@/lib/database'
 import FriendRequest from '@/lib/models/FriendRequest'
-import User from '@/lib/models/User'
-import { filterRequest, userDto } from '@/lib/util'
+import { filterRequest } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-	const { id: userId } = await params
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+	const userId = context.params.id
+
 	try {
 		await connectDB()
 		const ongoingRequest = await FriendRequest.find({

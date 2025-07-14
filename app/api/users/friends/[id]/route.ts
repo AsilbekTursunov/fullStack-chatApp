@@ -1,10 +1,9 @@
 import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
-import { userDto } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-	const { id: userId } = await params
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+	const userId = context.params.id
 	try {
 		await connectDB()
 		const friends = await User.findById(userId)

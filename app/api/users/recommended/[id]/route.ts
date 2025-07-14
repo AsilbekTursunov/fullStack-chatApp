@@ -5,10 +5,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
+	const userId = context.params.id
 	try {
 		await connectDB()
-		const { id: userId } = await params
 		const user = await User.findById(userId)
 		const recommendedUsers = await User.find({
 			$and: [
