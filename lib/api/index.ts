@@ -1,4 +1,4 @@
-import { useUser } from '@/store/useUser'
+import { useUserContext } from '@/hooks/useUserContext'
 import axios from 'axios'
 
 export const signUpUser = async (user: { fullName: string; email: string; password: string }) => {
@@ -22,7 +22,7 @@ export const getMe = async () => {
 }
 
 export const sendFriendRequest = async (recipenter: string) => {
-	const { user } = useUser()
+	const { user } = useUserContext()
 	const response = await axios.post(`/api/users/friend-request`, {
 		recipientId: recipenter,
 		currentUserId: user?.id,
@@ -31,13 +31,13 @@ export const sendFriendRequest = async (recipenter: string) => {
 }
 
 export async function getOngoingFriendReqs() {
-	const { user } = useUser()
-	const response = await axios.get(`/api/users/ongoing-friend-request/${user?.id}`) 
+	const { user } = useUserContext()
+	const response = await axios.get(`/api/users/ongoing-friend-request/${user?.id}`)
 	return response.data
 }
 
 export const getFriendRequests = async () => {
-	const { user } = useUser()
+	const { user } = useUserContext()
 	const response = await axios.get('/api/users/friends-requests', {
 		params: {
 			userId: user?.id,
@@ -47,7 +47,7 @@ export const getFriendRequests = async () => {
 }
 
 export const acceptFriendRequest = async (requestId: string) => {
-	const { user } = useUser()
+	const { user } = useUserContext()
 	const response = await axios.put(`/api/users/friend-request-accept`, {
 		requestId,
 		userId: user?.id,
