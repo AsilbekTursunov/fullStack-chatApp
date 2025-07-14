@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { EyeIcon, EyeOffIcon, ShipWheelIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { signUpUser } from '@/lib/api'
 import { useRouter } from 'next/navigation' 
 

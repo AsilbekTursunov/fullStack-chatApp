@@ -1,6 +1,5 @@
 'use client'
 import { createContext, ReactNode, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation' 
 import axios from 'axios'
 import PageLoader from '@/components/PageLoader'
 import { IUser } from '@/types'
