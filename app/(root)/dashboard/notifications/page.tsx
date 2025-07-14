@@ -12,7 +12,7 @@ const Notifications = () => {
 	const { data: friendRequests, isLoading } = useQuery({
 		queryKey: ['friendRequests'],
 		queryFn: async () => {
-			const response = await axios.get(`/api/users/friends-requests/${user?.id}`)
+			const response = await axios.get(`/api/users/friend-requests/${user?.id}`)
 			return response.data
 		},
 		enabled: !!user,
