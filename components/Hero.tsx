@@ -23,7 +23,7 @@ const Hero = () => {
 
 					{/* Main heading */}
 					<h1 className='text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight'>
-						<span className='text-primary'>Connect && Chat</span> <br />
+						<span className='text-primary'>Making Chat && Stream</span> <br />
 						<span className='text-secondary'>Seamlessly</span>
 					</h1>
 
