@@ -26,9 +26,9 @@ const DashboardPage = () => {
 	const { data: outgoingFriendRequests, refetch } = useQuery({
 		queryKey: ['outgoingFriendRequests'],
 		queryFn: async () => {
-			console.log('author', authUser?.id)
-
-			const response = await axios.get(`/api/users/ongoing-friend-request/${authUser?.id}`)
+			const response = await axios.post(`/api/users/ongoing-friend-request`, {
+				userId: authUser?.id,
+			})
 			return response.data
 		},
 		retry: false,

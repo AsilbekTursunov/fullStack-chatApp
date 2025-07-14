@@ -8,7 +8,9 @@ export const useRecommended = () => {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['getRecommended'],
 		queryFn: async () => {
-			const response = await axios.get(`/api/users/recommended/${user?.id}`)
+			const response = await axios.post(`/api/users/recommended`, {
+				userId: user?.id,
+			})
 			return response.data
 		},
 		enabled: !!user,

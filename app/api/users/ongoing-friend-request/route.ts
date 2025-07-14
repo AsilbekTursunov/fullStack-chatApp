@@ -3,11 +3,10 @@ import FriendRequest from '@/lib/models/FriendRequest'
 import { filterRequest } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
-	const userId = context.params.id
-
+export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
+		const { userId } = await req.json()
 		const ongoingRequest = await FriendRequest.find({
 			sender: userId,
 			status: 'pending',

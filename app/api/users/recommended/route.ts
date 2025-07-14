@@ -1,14 +1,11 @@
 import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
-import { userDto, verifyToken } from '@/lib/util'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
-	const userId = context.params.id
+export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
+		const { userId } = await req.json()
 		const user = await User.findById(userId)
 		const recommendedUsers = await User.find({
 			$and: [

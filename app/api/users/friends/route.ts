@@ -2,10 +2,10 @@ import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
-		const userId = params.id
+		const { userId } = await req.json()
 		const friends = await User.findById(userId)
 			.select('friends')
 			.populate('friends', 'fullName profilePic nativeLanguage learningLanguage location')
