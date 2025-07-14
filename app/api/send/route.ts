@@ -5,7 +5,7 @@ import User from '@/lib/models/User'
 
 const resend = new Resend('re_VoXbnb4x_Q2Sto7e4JMZN6attuzVdD4ae')
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
 	const { senderId, recipentId } = await req.json()
 	const sender = await User.findById(senderId)
 	const recipent = await User.findById(recipentId)
@@ -17,8 +17,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	})
 
 	if (error) {
-		return NextResponse.json(error, { status: 400 })
+		return NextResponse.json({ error }, { status: 400 })
 	}
 
-	return NextResponse.json(data, { status: 200 })
+	return NextResponse.json({ data }, { status: 200 })
 }
