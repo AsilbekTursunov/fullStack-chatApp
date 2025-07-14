@@ -1,9 +1,9 @@
 'use client'
-import { getLanguageFlag } from '@/components/CButton' 
-import { capitialize } from '@/lib/util' 
-import { useMutation,   useQueryClient } from '@tanstack/react-query'
+import { getLanguageFlag } from '@/components/CButton'
+import { capitialize } from '@/lib/util'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { CheckCircleIcon, MapPinIcon, UserPlusIcon } from 'lucide-react'  
+import { CheckCircleIcon, MapPinIcon, UserPlusIcon } from 'lucide-react'
 import { useUserContext } from '@/hooks/useUserContext'
 import { IFriend } from '@/types'
 
@@ -22,6 +22,11 @@ const NewFriend = ({
 			const response = await axios.post(`/api/users/friend-request`, {
 				recipientId: user?.id,
 				currentUserId: sender?.id,
+			})
+
+			await axios.post('/api/send', {
+				senderId: sender?.id,
+				recipentId: user.id,
 			})
 			return response.data
 		},
