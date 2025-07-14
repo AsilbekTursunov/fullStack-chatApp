@@ -4,16 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { generateStreamToken } from '@/actions/chat/stream'
 import { useUserContext } from '@/hooks/useUserContext'
 import toast from 'react-hot-toast'
-import { STREAM_API_KEY } from '../../chat/[id]/page'
-import {
-	StreamVideoClient,
-	Call, 
-	StreamVideo,
-	StreamCall,
-} from '@stream-io/video-react-sdk'
+import { StreamVideoClient, Call, StreamVideo, StreamCall } from '@stream-io/video-react-sdk'
 import PageLoader from '@/components/PageLoader'
 import { CallContent } from '../../_components/CallContent'
 import '@stream-io/video-react-sdk/dist/css/styles.css'
+import { STREAM_API_KEY } from '@/lib/util'
 
 const CallPage = () => {
 	const { id: callId } = useParams()
