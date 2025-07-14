@@ -17,9 +17,7 @@ import {
 	Thread,
 	Window,
 } from 'stream-chat-react'
-import 'stream-chat-react/dist/css/v2/index.css'
-
-export const STREAM_API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY!
+import 'stream-chat-react/dist/css/v2/index.css' 
 
 const ChatPage = () => {
 	const { id: targetUserId } = useParams()

@@ -105,3 +105,9 @@ export const userDetails = (user: any) => {
 		updatedAt: user.updatedAt,
 	}
 }
+
+export const DB_URL =
+	'mongodb+srv://asilbekt84:d6QqYrryvQdpbv7s@cluster0.icmkhi7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+export const JWT_SECRET_KEY = '8f3b8c2d4e5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j'
+export const STREAM_API_KEY = 't9ds23bhcwf7'
+export const STREAM_SECRET_KEY = 'v87qgkxzruqr2qtw4vd6ete8jfqv4gqgrqen9b3s3sxk4q22axsc4xppczsmeegh'

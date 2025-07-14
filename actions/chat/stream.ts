@@ -1,9 +1,10 @@
 'use server'
 
+import { STREAM_API_KEY, STREAM_SECRET_KEY } from '@/lib/util'
 import { StreamChat } from 'stream-chat'
 
-const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY!
-const apiSecret = process.env.NEXT_PUBLIC_STREAM_SECRET_KEY!
+const apiKey = STREAM_API_KEY
+const apiSecret = STREAM_SECRET_KEY
 
 if (!apiKey || !apiSecret) {
 	console.log('STREAM_API_KEY and STREAM_SECRET_KEY must be set in the environment variables')

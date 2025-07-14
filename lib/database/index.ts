@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { DB_URL } from '../util'
 let isConnected: boolean = false // Track the connection status
 
 export const connectDB = async () => {
@@ -10,7 +11,7 @@ export const connectDB = async () => {
 	}
 
 	try {
-		await mongoose.connect(process.env.NEXT_PUBLIC_DB_URL!, {
+		await mongoose.connect(DB_URL, {
 			autoCreate: true, // Automatically create the database if it doesn't exist
 			bufferCommands: false, // Disable buffering of commands when the connection is not established
 		})
