@@ -5,10 +5,9 @@ import { filterRequest, userDto } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+	const { id: userId } = await params
 	try {
 		await connectDB()
-		const { id: userId } = await params 
-
 		const ongoingRequest = await FriendRequest.find({
 			sender: userId,
 			status: 'pending',
