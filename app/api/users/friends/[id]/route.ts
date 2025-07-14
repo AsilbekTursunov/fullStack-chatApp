@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 			nativeLanguage: user.nativeLanguage,
 			learningLanguage: user.learningLanguage,
 			location: user.location,
-		})) 
+		}))
 
 		return NextResponse.json({ ok: true, status: 200, friends: oldFriends }, { status: 200 })
 	} catch (error) {

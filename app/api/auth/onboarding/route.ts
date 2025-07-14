@@ -1,11 +1,10 @@
 import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
 import { upsetStreamUser } from '@/actions/chat/stream'
-import { generateToken, hashPassword, userDetails, userDto } from '@/lib/util'
-import { cookies } from 'next/headers'
+import { userDetails } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
 	await connectDB()
 	const { fullName, bio, nativeLanguage, learningLanguage, location, userId } = await req.json()
 	try {

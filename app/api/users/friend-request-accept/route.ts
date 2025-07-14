@@ -3,11 +3,11 @@ import FriendRequest from '@/lib/models/FriendRequest'
 import User from '@/lib/models/User'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function PUT(req: NextRequest, res: NextResponse) {
+export async function PUT(req: NextRequest) {
 	try {
 		await connectDB()
 		const { requestId, userId } = await req.json()
-		const friendRequest = await FriendRequest.findById(requestId) 
+		const friendRequest = await FriendRequest.findById(requestId)
 
 		if (!friendRequest) {
 			return NextResponse.json({ message: 'Friend request not found' }, { status: 404 })

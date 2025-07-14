@@ -4,7 +4,7 @@ import User from '@/lib/models/User'
 import { filterAccepted, filterUpcoming } from '@/lib/util'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
 		const { recipientId, currentUserId } = await req.json()
@@ -47,5 +47,3 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		return NextResponse.json({ ok: false, status: 500, error: 'Server error' })
 	}
 }
-
-

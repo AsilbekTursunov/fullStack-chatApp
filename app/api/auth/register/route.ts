@@ -4,7 +4,7 @@ import { generateToken, hashPassword, userDto } from '@/lib/util'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
 	const { fullName, email, password } = await req.json()
 	try {
 		await connectDB()
