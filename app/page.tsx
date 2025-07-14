@@ -13,8 +13,6 @@ export default function Home() {
 			router.push('/dashboard')
 		} else if (user && !user.isOnboarded) {
 			router.push('/onboarding')
-		} else {
-			router.push('/login')
 		}
 	}, [])
 	return (

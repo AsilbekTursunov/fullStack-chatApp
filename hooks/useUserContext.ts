@@ -1,4 +1,4 @@
-import { Context } from '@/app/(root)/UserProvider'
+import { Context } from '@/app/UserProvider'
 import { useContext } from 'react'
 
 export const useUserContext = () => {

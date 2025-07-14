@@ -5,7 +5,7 @@ import axios from 'axios'
 import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from 'lucide-react'
 import React, { useContext, useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { Context } from '../UserProvider'
+import { Context } from '../../UserProvider'
 import { useRouter } from 'next/navigation'
 
 const OnBoardingPage = () => {
