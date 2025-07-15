@@ -1,9 +1,11 @@
-import { LANGUAGE_TO_FLAG } from '@/constants'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import Image from 'next/image'
 export const NEXT_PUBLIC_JWT_SECRET_KEY = '8f3b8c2d4e5a6b7c8d9e0f1a2b3c4d5e6f7g8h9i0j'
 
+export const getRandomImage = () => {
+	const idx = Math.floor(Math.random() * 90000) + 15234 // generate a num between 1-53
+	return `https://ui-avatars.com/api/?background=${idx}&name=Dostobek`
+}
 export const hashPassword = async (password: string) => {
 	const salt = await bcrypt.genSalt(10)
 	return bcrypt.hashSync(password, salt)

@@ -1,6 +1,7 @@
 'use client'
-import { getLanguageFlag } from '@/components/CButton' 
+import { getLanguageFlag } from '@/components/CButton'
 import { IFriend } from '@/types'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const FriendCard = ({ friend }: { friend: IFriend }) => {
@@ -10,7 +11,13 @@ const FriendCard = ({ friend }: { friend: IFriend }) => {
 				{/* USER INFO */}
 				<div className='flex items-center gap-3 mb-3'>
 					<div className='avatar size-12'>
-						<img src={friend.profilePic} alt={friend.fullName} />
+						<Image
+							src={friend.profilePic}
+							alt={friend.fullName}
+							width={1000}
+							height={1000}
+							className='size-7'
+						/>
 					</div>
 					<h3 className='font-semibold truncate'>{friend.fullName}</h3>
 				</div>

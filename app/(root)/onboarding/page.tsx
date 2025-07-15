@@ -3,13 +3,16 @@ import { LANGUAGES } from '@/constants'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from 'lucide-react'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Context } from '../../UserProvider'
 import { useRouter } from 'next/navigation'
+import { getRandomImage } from '@/lib/util'
+import Image from 'next/image'
 
 const OnBoardingPage = () => {
 	const { isLoading, user: authUser, setUser } = useContext(Context)
+	const [image, setImage] = useState<string>('')
 	const router = useRouter()
 	const [formState, setFormState] = React.useState({
 		fullName: authUser?.fullName || '',
@@ -30,6 +33,7 @@ const OnBoardingPage = () => {
 		mutationFn: async () => {
 			const response = await axios.post('/api/auth/onboarding', {
 				...formState,
+				profilePic: image,
 				userId: authUser?.id,
 			})
 			return response.data
@@ -48,10 +52,9 @@ const OnBoardingPage = () => {
 	}
 
 	const handleRandomAvatar = () => {
-		const idx = Math.floor(Math.random() * 100) + 1 // 1-100 included
-		const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`
-
-		setFormState({ ...formState, profilePic: randomAvatar })
+		const randomAvatar = getRandomImage()
+		setImage(randomAvatar)
+		setFormState(prev => ({ ...prev, profilePic: randomAvatar }))
 		toast.success('Random profile picture generated!')
 	}
 
@@ -65,12 +68,21 @@ const OnBoardingPage = () => {
 						{/* PROFILE PIC CONTAINER */}
 						<div className='flex flex-col items-center justify-center space-y-2'>
 							{/* IMAGE PREVIEW */}
+							<Image
+								src={'/images/45.jpeg'}
+								alt='Profile Preview'
+								className='object-cover size-4'
+								width={1000}
+								height={1000}
+							/>
 							<div className='size-32 rounded-full bg-base-300 overflow-hidden'>
 								{formState.profilePic ? (
-									<img
+									<Image
 										src={formState.profilePic}
 										alt='Profile Preview'
-										className='w-full h-full object-cover'
+										className='w-full h-full object-cover size-7'
+										width={1000}
+										height={1000}
 									/>
 								) : (
 									<div className='flex items-center justify-center h-full'>

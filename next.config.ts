@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
 				hostname: 'avatar.iran.liara.run',
 				port: '',
 			},
+			{
+				protocol: 'https',
+				hostname: 'ui-avatars.com',
+				port: '',
+			},
 		],
 	},
 	typescript: {

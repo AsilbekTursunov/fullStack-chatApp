@@ -6,6 +6,7 @@ import axios from 'axios'
 import { CheckCircleIcon, MapPinIcon, UserPlusIcon } from 'lucide-react'
 import { useUserContext } from '@/hooks/useUserContext'
 import { IFriend } from '@/types'
+import Image from 'next/image'
 
 const NewFriend = ({
 	user,
@@ -41,7 +42,13 @@ const NewFriend = ({
 			<div className='card-body p-5 space-y-4'>
 				<div className='flex items-center gap-3'>
 					<div className='avatar size-16 rounded-full'>
-						<img src={user.profilePic} alt={user.fullName} />
+						<Image
+							src={user.profilePic}
+							alt={user.fullName}
+							className='size-7'
+							width={1000}
+							height={1000}
+						/>
 					</div>
 
 					<div>

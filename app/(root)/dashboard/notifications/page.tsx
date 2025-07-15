@@ -3,12 +3,25 @@ import NoNotificationsFound from '@/components/NoNotificationsFound'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useUserContext } from '@/hooks/useUserContext'
+import { useRouter } from 'next/navigation'
 
 const Notifications = () => {
 	const queryClient = useQueryClient()
 	const { user } = useUserContext()
+	const router = useRouter()
+
+	useEffect(() => {
+		if (user && user?.isOnboarded) {
+			router.push('/dashboard')
+		} else if (user && !user?.isOnboarded) {
+			router.push('/onboarding')
+		} else {
+			router.push('/login')
+		}
+	}, [user])
+
 	const { data: friendRequests, isLoading } = useQuery({
 		queryKey: ['friendRequests'],
 		queryFn: async () => {
@@ -19,7 +32,13 @@ const Notifications = () => {
 		},
 		enabled: !!user,
 	})
-
+	useEffect(() => {
+		if (user && user?.isOnboarded) {
+			router.push('/dashboard')
+		} else if (user && !user?.isOnboarded) {
+			router.push('/onboarding')
+		}
+	}, [user])
 	const { mutate: acceptRequestMutation, isPending } = useMutation({
 		mutationFn: async (requestId: string) => {
 			const response = await axios.put(`/api/users/friend-request-accept`, {

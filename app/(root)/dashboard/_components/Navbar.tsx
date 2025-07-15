@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useUserContext } from '@/hooks/useUserContext'
 import axios from 'axios'
+import Image from 'next/image'
 
 const Navbar = () => {
 	const { user: authUser, setUser } = useUserContext()
@@ -41,14 +42,12 @@ const Navbar = () => {
 					<Bell />
 				</CButton>
 				<CButton className='mx-2 '>
-					{/* <Theme /> */}
-					<Palette />
-				</CButton>
-				<CButton className='mx-2 '>
-					<img
+					<Image
 						src={authUser?.profilePic}
 						alt={authUser?.fullName}
-						className='w-8 h-8 rounded-full'
+						className='size-7 rounded-full'
+						width={1000}
+						height={1000}
 					/>
 				</CButton>
 				<CButton className='mx-2 '>

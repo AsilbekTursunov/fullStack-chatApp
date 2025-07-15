@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation'
 import { BellIcon, HomeIcon, ShipWheelIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useUserContext } from '@/hooks/useUserContext'
+import Image from 'next/image'
 
 const Sidebar = () => {
 	const { user } = useUserContext()
@@ -10,6 +11,7 @@ const Sidebar = () => {
 	const pathName = usePathname()
 
 	if (pathName.startsWith('/dashboard/chat') || pathName.startsWith('/dashboard/call')) return null
+	if (!user) return null
 	return (
 		<aside className='w-64  border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0'>
 			<div className='p-5 h-20'>
@@ -58,7 +60,13 @@ const Sidebar = () => {
 				<div className='flex items-center gap-3'>
 					<div className='avatar'>
 						<div className='w-10 rounded-full'>
-							<img src={user?.profilePic} alt='User Avatar' />
+							<Image
+								src={user?.profilePic}
+								alt='User Avatar'
+								className='size-7'
+								width={1000}
+								height={1000}
+							/>
 						</div>
 					</div>
 					<div className='flex-1'>

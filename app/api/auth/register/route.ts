@@ -1,6 +1,6 @@
 import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
-import { generateToken, hashPassword, userDto } from '@/lib/util'
+import { generateToken, getRandomImage, hashPassword, userDto } from '@/lib/util'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 		const hashedPassword = await hashPassword(password)
 
 		const idx = Math.floor(Math.random() * 100) + 1 // generate a num between 1-100
-		const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`
+		const randomAvatar = getRandomImage()
 
 		const newUser = await User.create({
 			fullName,
