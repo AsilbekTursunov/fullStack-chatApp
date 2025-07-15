@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
 	try {
 		await connectDB()
 		const { userId } = await req.json()
+
 		const upcomingFriendRequests = await FriendRequest.find({
 			recipient: userId,
 			status: 'pending',

@@ -12,31 +12,17 @@ const Notifications = () => {
 	const { user } = useUserContext()
 	const router = useRouter()
 
-	useEffect(() => {
-		if (user && !user?.isOnboarded) {
-			router.push('/onboarding')
-		} else if (!user) {
-			router.push('/login')
-		}
-	}, [user])
-
 	const { data: friendRequests, isLoading } = useQuery({
 		queryKey: ['friendRequests'],
 		queryFn: async () => {
 			const response = await axios.post(`/api/users/friend-requests`, {
-				useId: user?.id,
+				userId: user?.id,
 			})
 			return response.data
 		},
 		enabled: !!user,
 	})
-	useEffect(() => {
-		if (user && user?.isOnboarded) {
-			router.push('/dashboard')
-		} else if (user && !user?.isOnboarded) {
-			router.push('/onboarding')
-		}
-	}, [user])
+
 	const { mutate: acceptRequestMutation, isPending } = useMutation({
 		mutationFn: async (requestId: string) => {
 			const response = await axios.put(`/api/users/friend-request-accept`, {
@@ -53,6 +39,17 @@ const Notifications = () => {
 
 	const incomingRequests = friendRequests?.upcomingFriendRequests || []
 	const acceptedRequests = friendRequests?.acceptedFriendRequests || []
+
+	useEffect(() => {
+		if (user && !user?.isOnboarded) {
+			router.push('/onboarding')
+		} else if (!user) {
+			router.push('/login')
+		}
+	}, [user])
+	console.log('incomingRequests', incomingRequests)
+	console.log('acceptedRequests', acceptedRequests)
+
 	return (
 		<>
 			<div className='p-4 sm:p-6 lg:p-8'>
