@@ -13,11 +13,9 @@ const Notifications = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		if (user && user?.isOnboarded) {
-			router.push('/dashboard')
-		} else if (user && !user?.isOnboarded) {
+		if (user && !user?.isOnboarded) {
 			router.push('/onboarding')
-		} else {
+		} else if (!user) {
 			router.push('/login')
 		}
 	}, [user])
