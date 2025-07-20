@@ -26,6 +26,8 @@ const OnBoardingPage = () => {
 	useEffect(() => {
 		if (authUser && authUser.isOnboarded) {
 			router.push('/dashboard')
+		} else if (!authUser) {
+			router.push('/login')
 		}
 	}, [])
 
@@ -52,7 +54,7 @@ const OnBoardingPage = () => {
 	}
 
 	const handleRandomAvatar = () => {
-		const randomAvatar = getRandomImage()
+		const randomAvatar = getRandomImage(authUser?.fullName!)
 		setImage(randomAvatar)
 		setFormState(prev => ({ ...prev, profilePic: randomAvatar }))
 		toast.success('Random profile picture generated!')

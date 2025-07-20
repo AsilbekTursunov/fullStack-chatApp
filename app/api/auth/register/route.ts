@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
 		const hashedPassword = await hashPassword(password)
 
 		const idx = Math.floor(Math.random() * 100) + 1 // generate a num between 1-100
-		const randomAvatar = getRandomImage()
+		const randomAvatar = getRandomImage(fullName)
 
 		const newUser = await User.create({
 			fullName,
