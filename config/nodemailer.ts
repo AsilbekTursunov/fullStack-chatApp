@@ -137,3 +137,97 @@ export function mailOptions(sender: IUser, recipent: IUser) {
   `,
 	}
 }
+
+export const emailOTP = (code: string, recipentEmail: string) => {
+	return {
+		from: 'asilbekt84@gmail.com', // sender address
+		to: recipentEmail, // Subject line
+		html: `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Verify Your Email - Chattyl</title>
+          <style>
+            body {
+              background-color: #f4f4f4;
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              background-color: #ffffff;
+              margin: 30px auto;
+              padding: 30px; 
+            }
+            .logo {
+              text-align: center;
+              margin-bottom: 20px;
+              display:flex; 
+              justify-content:center;
+              align-items:center;
+              gap:5px;
+            }
+            .logo img {
+              width: 100px;
+            }
+            .logo .name{
+              font-size:44px;
+              font-weight:900;
+              color:#2c3e50;
+            }
+            h3 {
+              color: #2c3e50;
+              text-align: center;
+            }
+            p {
+              color: #555555;
+              font-size: 16px;
+              line-height: 1.5;
+            }
+            .button {
+              display: block;
+              width: fit-content;
+              margin: 30px auto;
+              padding: 12px 24px;
+              background-color: #7777;
+              color: #000;
+              text-decoration: none;
+              font-weight: bold;
+              font-size:32px;
+              border-radius: 6px;
+            }
+            .footer {
+              text-align: center;
+              font-size: 12px;
+              color: #999999;
+              margin-top: 30px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="logo">
+              <img src="https://chatty-stream-app.vercel.app/chatty.png" alt="Chattyl Logo" />
+              <span class="name">Chatty</span>
+            </div>
+            <p>Hi there,</p>
+            <p>Thanks for joining <strong>Chattyl</strong>! Please confirm your email address by enter the number  below:</p>
+            
+            <span class="button">${code}</span>
+
+            <p>If you didn’t sign up for Chattyl, you can safely ignore this email.</p>
+
+            <div class="footer">
+              &copy; 2025 Chattyl. All rights reserved.<br />
+              You received this email because you signed up on Chattyl.
+            </div>
+          </div>
+        </body>
+      </html>
+
+    `,
+	}
+}

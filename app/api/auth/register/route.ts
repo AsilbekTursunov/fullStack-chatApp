@@ -1,3 +1,4 @@
+import { emailOTP, transporter } from '@/config/nodemailer'
 import { connectDB } from '@/lib/database'
 import User from '@/lib/models/User'
 import { generateToken, getRandomImage, hashPassword, userDto } from '@/lib/util'
@@ -5,7 +6,7 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-	const { fullName, email, password } = await req.json()
+	const { fullName, email, password, code } = await req.json()
 	try {
 		await connectDB()
 		if (!fullName || !email || !password) {
@@ -34,6 +35,11 @@ export async function POST(req: NextRequest) {
 			maxAge: 7 * 24 * 60 * 60 * 1000,
 			httpOnly: true, // prevent XSS attacks,
 			secure: true,
+		})
+
+		await transporter.sendMail({
+			...emailOTP(code, newUser.email),
+			subject: 'OTP verifation request from Chatty',
 		})
 		return NextResponse.json(
 			{
