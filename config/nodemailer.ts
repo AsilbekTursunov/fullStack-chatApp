@@ -162,10 +162,10 @@ export const emailOTP = (code: string, recipentEmail: string) => {
               margin: 30px auto;
               padding: 30px; 
             }
-            .logo {
-              text-align: center;
-              margin-bottom: 20px;
-              display:flex; 
+            .logo { 
+              margin-bottom: 20px; 
+              display:flex;
+              flex-direction:column;
               justify-content:center;
               align-items:center;
               gap:5px;
@@ -194,6 +194,7 @@ export const emailOTP = (code: string, recipentEmail: string) => {
               padding: 12px 24px;
               background-color: #7777;
               color: #000;
+              letter-spacing:3px;
               text-decoration: none;
               font-weight: bold;
               font-size:32px;

@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
 	if (!existUser) return NextResponse.json({ success: false }, { status: 401 })
 
-	await User.findOneAndUpdate({ email }, { verification: true })
+	await User.findOneAndUpdate({ email }, { verified: true })
 	return NextResponse.json(
 		{ success: true, message: 'User email verified successfully', user: userDto(existUser) },
 		{ status: 200 }

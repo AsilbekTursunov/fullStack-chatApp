@@ -1,43 +1,38 @@
 'use client'
 import { useState } from 'react'
-import { EyeIcon, EyeOffIcon, ShipWheelIcon } from 'lucide-react'
+import { EyeIcon, EyeOffIcon, ShipWheelIcon, X } from 'lucide-react'
 import Link from 'next/link'
 import { useMutation } from '@tanstack/react-query'
 import { signUpUser } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { useUserContext } from '@/hooks/useUserContext'
 
 const RegisterPage = () => {
 	const [show, setShow] = useState(false)
 	const [showModal, setshowModal] = useState(false)
 	const [otpCode, setOtpCode] = useState('')
 	const router = useRouter()
+
+	const { refetch } = useUserContext()
 	const [signupData, setSignupData] = useState({
 		fullName: '',
 		email: '',
 		password: '',
-		code: '',
+		code: (Math.random() * 1000000).toString().slice(0, 5),
 	})
 
 	const { mutate, isPending, error } = useMutation({
-		mutationFn: async () => {
-			setSignupData(prev => ({ ...prev, code: String((Math.random() * 100000).toFixed(0)) }))
-			signUpUser(signupData)
-		},
-		onSuccess: data => {
+		mutationFn: signUpUser,
+		onSuccess: () => {
 			setshowModal(true)
-			// if (data && data.user.isOnboarded) {
-			// 	router.push('/dashboard')
-			// } else if (data && !data.user.isOnboarded) {
-			// 	router.push('/onboarding')
-			// }
 		},
 		onError(err) {
 			console.log('register error', err)
 		},
 	})
 
-	const { mutate: verifyMutation } = useMutation({
+	const { mutate: verifyMutation, isPending: verifyPending } = useMutation({
 		mutationFn: async () => {
 			const response = await axios.post('/api/auth/verify', {
 				email: signupData.email,
@@ -50,13 +45,20 @@ const RegisterPage = () => {
 			} else if (data && !data.user.isOnboarded) {
 				router.push('/onboarding')
 			}
+			refetch()
 		},
 	})
 
 	const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		mutate()
+		setTimeout(() => {
+			mutate(signupData)
+		}, 1000)
 	}
+
+	console.log(signupData.code)
+	console.log(otpCode)
+
 	return (
 		<>
 			<div className='h-screen flex items-center justify-center p-4 sm:p-6 md:p-8'>
@@ -74,7 +76,11 @@ const RegisterPage = () => {
 						{/* ERROR MESSAGE IF ANY */}
 						{error && (
 							<div className='alert alert-error mb-4'>
-								<span>{error?.message}</span>
+								<span>
+									{(axios.isAxiosError(error) && error.response?.data?.message) ||
+										error?.message ||
+										'An error occurred.'}
+								</span>
 							</div>
 						)}
 
@@ -205,12 +211,60 @@ const RegisterPage = () => {
 				</div>
 			</div>
 			<div
-				className={`fixed top-0 bottom-0 bg-neutral-700/30  items-center justify-center ${showModal ? 'flex' : 'hidden'}`}
+				className={`fixed z-50 top-0 bottom-0 bg-neutral-900/90 w-screen h-screen  items-center justify-center ${showModal ? 'flex' : 'hidden'}`}
 			>
-				<div className='bg-white rounded-lg p-4 flex flex-col gap-2'>
+				<div className='flex flex-col px-16 py-14 text-base relative leading-6 bg-white shadow-sm max-w-[540px] max-md:px-5 rounded-xl'>
+					<span
+						onClick={() => setshowModal(false)}
+						className=' absolute -right-5 -top-4 size-5 text-white cursor-pointer'
+					>
+						<X />
+					</span>
+					<div className='self-center text-3xl font-bold leading-10 text-center text-gray-900'>
+						Confirm Email
+					</div>
+					<div className='flex gap-2 self-center mt-6 text-center'>
+						<div className='text-gray-500'>Check Your Email and Enter Confirmation Code</div>
+					</div>
+					<div className='mt-12 text-sm leading-5 text-gray-500 max-md:mt-10'>
+						Confirmation Code
+					</div>
 					<input
+						type='text'
+						className='justify-center items-start mt-2.5 bg-white rounded border border-solid border-slate-200 text-slate-400 max-md:pr-5 px-4 py-5'
+						placeholder='Enter Code'
 						onChange={event => setOtpCode(event.target.value)}
-						className='p-3 rounded-md outline-0 border-neutral-200 border'
+						required
+					/>
+					<button
+						className={` ${signupData.code != otpCode ? ' bg-blue-200 cursor-not-allowed' : 'bg-blue-600 cursor-pointer'} justify-center items-center px-16 py-5 mt-6 text-white  rounded max-md:px-5`}
+						onClick={() => verifyMutation()}
+					>
+						{verifyPending ? (
+							<>
+								<span className='loading loading-spinner loading-xs'></span>
+								Sending...
+							</>
+						) : (
+							'Confirm Email'
+						)}
+					</button>
+					<div className='mt-7 h-px bg-zinc-200' />
+					<div className='self-center mt-7 text-sm leading-5 text-center text-gray-500'>
+						Haven't received your code?
+					</div>
+					{/* <button
+						className='flex justify-center items-center px-16 py-3 mt-7 text-blue-600 bg-white rounded border border-solid border-zinc-200 max-md:px-5'
+						onClick={handleResendCode}
+					>
+						Resend Code
+					</button> */}
+				</div>
+				{/* <div className='bg-white rounded-lg p-4 flex flex-col gap-2'>
+					<input
+						type='number'
+						onChange={event => setOtpCode(event.target.value)}
+						className='p-3 rounded-md outline-0 border-neutral-200 border text-center text-black'
 					/>
 					<button
 						disabled={signupData.code != otpCode}
@@ -219,7 +273,7 @@ const RegisterPage = () => {
 					>
 						Verify
 					</button>
-				</div>
+				</div> */}
 			</div>
 		</>
 	)

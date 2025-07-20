@@ -70,13 +70,6 @@ const OnBoardingPage = () => {
 						{/* PROFILE PIC CONTAINER */}
 						<div className='flex flex-col items-center justify-center space-y-2'>
 							{/* IMAGE PREVIEW */}
-							<Image
-								src={'/images/45.jpeg'}
-								alt='Profile Preview'
-								className='object-cover size-4'
-								width={1000}
-								height={1000}
-							/>
 							<div className='size-32 rounded-full bg-base-300 overflow-hidden'>
 								{formState.profilePic ? (
 									<Image

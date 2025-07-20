@@ -15,14 +15,12 @@ export async function POST(req: NextRequest) {
 
 		const existUser = await User.findOne({ email })
 		if (existUser) {
-			return NextResponse.json({ ok: false, error: 'User is already registred' })
+			return NextResponse.json({ ok: false, message: 'User is already registred' }, { status: 403 })
 		}
 
 		const hashedPassword = await hashPassword(password)
-
-		const idx = Math.floor(Math.random() * 100) + 1 // generate a num between 1-100
 		const randomAvatar = getRandomImage(fullName)
-
+		console.log('code', code)
 		const newUser = await User.create({
 			fullName,
 			email,

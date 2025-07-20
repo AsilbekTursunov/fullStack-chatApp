@@ -9,5 +9,6 @@ export const useUserContext = () => {
 		setUser: context.setUser,
 		isLoading: context.isLoading,
 		error: context.error,
+		refetch: context.refetch,
 	}
 }
