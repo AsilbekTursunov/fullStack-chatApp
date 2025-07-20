@@ -11,15 +11,17 @@ export async function POST(req: NextRequest) {
 		await connectDB()
 		const existUser = await User.findOne({ email })
 		if (!existUser)
-			return NextResponse.json({
-				ok: false,
-				status: 404,
-				error: 'User not found or not authorized',
-			})
+			return NextResponse.json(
+				{
+					ok: false,
+					message: 'User not found or not authorized',
+				},
+				{ status: 404 }
+			)
 
 		const decoded = await bcrypt.compare(password, existUser.password)
 		if (!decoded) {
-			return NextResponse.json({ ok: false, status: 401, error: 'Invalid password' })
+			return NextResponse.json({ ok: false, message: 'Invalid password' }, { status: 401 })
 		}
 
 		const token = generateToken({ id: String(existUser._id), email })

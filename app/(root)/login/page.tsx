@@ -61,7 +61,11 @@ const LoginPage = () => {
 					{/* ERROR MESSAGE DISPLAY */}
 					{error && (
 						<div className='alert alert-error mb-4'>
-							<span>{error?.message}</span>
+							<span>
+								{(axios.isAxiosError(error) && error.response?.data?.message) ||
+									error?.message ||
+									'An error occurred.'}
+							</span>
 						</div>
 					)}
 
