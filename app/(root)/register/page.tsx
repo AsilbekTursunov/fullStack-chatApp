@@ -8,12 +8,14 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { useUserContext } from '@/hooks/useUserContext'
 
+const emailMatch = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 const RegisterPage = () => {
 	const [show, setShow] = useState(false)
 	const [showModal, setshowModal] = useState(false)
 	const [otpCode, setOtpCode] = useState('')
 	const router = useRouter()
-
+	let errorFields = ''
 	const { refetch } = useUserContext()
 	const [signupData, setSignupData] = useState({
 		fullName: '',
@@ -51,13 +53,16 @@ const RegisterPage = () => {
 
 	const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		setTimeout(() => {
+		if (
+			emailMatch.test(signupData.email) &&
+			signupData.fullName &&
+			signupData.password.length > 6
+		) {
 			mutate(signupData)
-		}, 1000)
+		} else {
+			errorFields = 'All fields required please fill them correct way'
+		}
 	}
-
-	console.log(signupData.code)
-	console.log(otpCode)
 
 	return (
 		<>
@@ -84,6 +89,12 @@ const RegisterPage = () => {
 							</div>
 						)}
 
+						{errorFields && (
+							<div className='alert alert-error mb-4'>
+								<span>{errorFields}</span>
+							</div>
+						)}
+
 						<div className='w-full'>
 							<form onSubmit={handleSignup}>
 								<div className='space-y-4'>
@@ -102,6 +113,7 @@ const RegisterPage = () => {
 											</label>
 											<input
 												type='text'
+												min={5}
 												placeholder='John Doe'
 												className='input input-bordered w-full'
 												value={signupData.fullName}
@@ -119,6 +131,7 @@ const RegisterPage = () => {
 												placeholder='john@gmail.com'
 												className='input input-bordered w-full'
 												value={signupData.email}
+												required
 												onChange={e => setSignupData({ ...signupData, email: e.target.value })}
 											/>
 										</div>
@@ -135,6 +148,7 @@ const RegisterPage = () => {
 													value={signupData.password}
 													onChange={e => setSignupData({ ...signupData, password: e.target.value })}
 													required
+													min={6}
 												/>
 												<span
 													onClick={() => setShow(!show)}
@@ -164,7 +178,17 @@ const RegisterPage = () => {
 										</div>
 									</div>
 
-									<button className='btn btn-primary w-full' type='submit'>
+									<button
+										className={` w-full btn btn-primary`}
+										disabled={
+											emailMatch.test(signupData.email) &&
+											signupData.fullName &&
+											signupData.password.length > 6
+												? false
+												: true
+										}
+										type='submit'
+									>
 										{isPending ? (
 											<>
 												<span className='loading loading-spinner loading-xs'></span>
